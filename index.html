@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense & Budget Visualizer</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">💰</span>
+        <span class="logo-text">BudgetViz</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Balance Card -->
+    <section class="balance-card glass-card">
+      <p class="balance-label">Total Balance</p>
+      <h1 class="balance-amount" id="totalBalance">Rp 0</h1>
+      <div class="balance-summary">
+        <div class="summary-item income">
+          <span class="summary-icon">⬆️</span>
+          <div>
+            <p class="summary-label">Pemasukan</p>
+            <p class="summary-value" id="totalIncome">Rp 0</p>
+          </div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item expense">
+          <span class="summary-icon">⬇️</span>
+          <div>
+            <p class="summary-label">Pengeluaran</p>
+            <p class="summary-value" id="totalExpense">Rp 0</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid: Form + Chart -->
+    <div class="grid-2col">
+
+      <!-- Form Input -->
+      <section class="glass-card form-card mode-expense" id="formCard">
+        <h2 class="card-title">Tambah Transaksi</h2>
+
+        <!-- Tab Switcher -->
+        <div class="form-tabs" role="tablist">
+          <button type="button" class="form-tab active-expense" id="tabExpense"
+                  role="tab" aria-selected="true">
+            ⬇️ Pengeluaran
+          </button>
+          <button type="button" class="form-tab" id="tabIncome"
+                  role="tab" aria-selected="false">
+            ⬆️ Pemasukan
+          </button>
+        </div>
+
+        <form id="transactionForm" novalidate>
+          <!-- hidden type field — diisi otomatis oleh tab -->
+          <input type="hidden" id="type" value="expense" />
+
+          <!-- Nama Barang — disembunyikan saat mode income -->
+          <div class="form-group" id="fieldItemName">
+            <label for="itemName">Nama Barang / Keterangan</label>
+            <input type="text" id="itemName" placeholder="Sayur" autocomplete="off" />
+            <span class="error-msg" id="errName"></span>
+          </div>
+
+          <!-- Jumlah Barang — disembunyikan saat mode income -->
+          <div class="form-group" id="fieldQty">
+            <label for="qty">Jumlah Barang</label>
+            <input type="number" id="qty" placeholder="Contoh: 3" min="1" step="1" />
+            <span class="error-msg" id="errQty"></span>
+          </div>
+
+          <!-- Harga Total + Mata Uang -->
+          <div class="form-group">
+            <label for="totalPrice" id="labelTotalPrice">Harga Total</label>
+            <div class="price-row">
+              <select id="currencySelect" class="currency-select" title="Pilih Mata Uang">
+                <option value="IDR">Rp — IDR</option>
+                <option value="USD">$ — USD</option>
+                <option value="EUR">€ — EUR</option>
+                <option value="JPY">¥ — JPY</option>
+                <option value="SGD">S$ — SGD</option>
+                <option value="MYR">RM — MYR</option>
+                <option value="GBP">£ — GBP</option>
+                <option value="CNY">¥ — CNY</option>
+              </select>
+              <input type="number" id="totalPrice" placeholder="Contoh: 150000" min="0.01" step="any" />
+            </div>
+            <span class="error-msg" id="errPrice"></span>
+          </div>
+
+          <!-- Info Harga Satuan (otomatis) -->
+          <div class="unit-price-info" id="unitPriceInfo" style="display:none;">
+            <span class="unit-price-icon">÷</span>
+            <span>Harga Satuan: <strong id="unitPriceDisplay">—</strong></span>
+          </div>
+
+          <!-- Preview Total -->
+          <div class="subtotal-preview" id="subtotalGroup">
+            <span class="subtotal-label">Total Diinput</span>
+            <span class="subtotal-value" id="subtotalDisplay">—</span>
+          </div>
+
+          <!-- Kategori -->
+          <div class="form-group">
+            <label for="category">Kategori</label>
+            <select id="category">
+              <option value="Makanan">🍔 Makanan</option>
+              <option value="Transportasi">🚗 Transportasi</option>
+              <option value="Belanja">🛍️ Belanja</option>
+              <option value="Hiburan">🎮 Hiburan</option>
+              <option value="Kesehatan">💊 Kesehatan</option>
+              <option value="Pendidikan">📚 Pendidikan</option>
+              <option value="Gaji">💼 Gaji</option>
+              <option value="Lainnya">📌 Lainnya</option>
+            </select>
+            <span class="error-msg" id="errCategory"></span>
+          </div>
+
+          <!-- Manajemen Kategori -->
+          <div class="form-group cat-manager-group">
+            <label>Kelola Kategori</label>
+            <div class="custom-cat-row">
+              <input type="text" id="customCategory" placeholder="Nama kategori baru..." />
+              <button type="button" class="btn-secondary" id="addCategoryBtn">+ Tambah</button>
+            </div>
+            <span class="error-msg" id="errCustomCat"></span>
+            <div class="cat-list" id="catList"></div>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitBtn">
+            ⬇️ Catat Pengeluaran
+          </button>
+        </form>
+
+        <!-- Budget Planner — hanya muncul saat tab Pemasukan aktif -->
+        <div class="income-budget-panel" id="incomeBudgetPanel" style="display:none;">
+          <div class="income-budget-divider">
+            <span>📊 Alokasi Anggaran per Kategori</span>
+          </div>
+          <p class="income-budget-hint">Set berapa banyak pemasukan yang dialokasikan untuk tiap kategori pengeluaran.</p>
+
+          <div class="budget-toolbar">
+            <select id="budgetCatSelect" title="Pilih kategori"></select>
+            <input type="number" id="budgetAmount" placeholder="Nominal anggaran" min="1" step="any" />
+            <select id="budgetCurrencySelect" class="currency-select" style="min-width:90px;max-width:110px;flex-shrink:0;" title="Mata Uang Anggaran">
+              <option value="IDR">Rp — IDR</option>
+              <option value="USD">$ — USD</option>
+              <option value="EUR">€ — EUR</option>
+              <option value="JPY">¥ — JPY</option>
+              <option value="SGD">S$ — SGD</option>
+              <option value="MYR">RM — MYR</option>
+              <option value="GBP">£ — GBP</option>
+              <option value="CNY">¥ — CNY</option>
+            </select>
+            <button type="button" class="btn-secondary" id="addBudgetBtn">+ Set</button>
+          </div>
+
+          <div class="budget-list" id="budgetList">
+            <p class="budget-empty" id="budgetEmpty">Belum ada anggaran. Set di atas.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pie Chart -->
+      <section class="glass-card chart-card">
+        <h2 class="card-title">Distribusi Pengeluaran</h2>
+        <div class="chart-wrapper">
+          <canvas id="expenseChart"></canvas>
+          <p class="chart-empty" id="chartEmpty">Belum ada data pengeluaran.</p>
+        </div>
+        <div class="chart-legend" id="chartLegend"></div>
+      </section>
+
+    </div>
+
+    <!-- Transaction List -->
+    <section class="glass-card list-card">
+      <div class="list-header">
+        <h2 class="card-title">Riwayat Transaksi</h2>
+        <div class="list-controls">
+          <label for="sortSelect" class="sort-label">Urutkan:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="newest">Terbaru</option>
+            <option value="oldest">Terlama</option>
+            <option value="highest">Nominal Terbesar</option>
+            <option value="lowest">Nominal Terkecil</option>
+            <option value="category-az">Kategori A–Z</option>
+            <option value="category-za">Kategori Z–A</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Spending Limit -->
+      <div class="spending-limit-bar" id="spendingLimitBar">
+        <div class="spending-limit-config">
+          <span class="spending-limit-label">🚨 Batas Pengeluaran Bulanan</span>
+          <div class="spending-limit-inputs">
+            <select id="limitCurrencySelect" class="currency-select" style="min-width:90px;max-width:110px;flex-shrink:0;">
+              <option value="IDR">Rp — IDR</option>
+              <option value="USD">$ — USD</option>
+              <option value="EUR">€ — EUR</option>
+              <option value="JPY">¥ — JPY</option>
+              <option value="SGD">S$ — SGD</option>
+              <option value="MYR">RM — MYR</option>
+              <option value="GBP">£ — GBP</option>
+              <option value="CNY">¥ — CNY</option>
+            </select>
+            <input type="number" id="spendingLimitInput" placeholder="Nominal batas..." min="1" step="any" />
+            <button type="button" class="btn-secondary" id="setLimitBtn">Set</button>
+            <button type="button" class="btn-icon-clear" id="clearLimitBtn" title="Hapus batas" style="display:none;">✕</button>
+          </div>
+        </div>
+        <div id="limitWarningBanner" style="display:none;"></div>
+      </div>
+
+      <div class="transaction-list" id="transactionList">
+        <div class="empty-state" id="emptyState">
+          <span class="empty-icon">📭</span>
+          <p>Belum ada transaksi. Yuk, tambahkan!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monthly Summary -->
+    <section class="glass-card monthly-section">
+      <div class="list-header">
+        <h2 class="card-title">📅 Ringkasan Bulanan Pengeluaran</h2>
+        <div class="list-controls">
+          <label for="summaryYearSelect" class="sort-label">Tahun:</label>
+          <select id="summaryYearSelect" class="sort-select"></select>
+        </div>
+      </div>
+      <div id="monthlySummaryContent">
+        <p class="budget-empty" id="monthlyEmpty">Belum ada data pengeluaran.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1319 @@
+/* =============================================
+   BudgetViz — Expense & Budget Visualizer
+   Tema: Blue Soft
+   ============================================= */
+
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* =============================================
+   CSS VARIABLES — LIGHT MODE
+   ============================================= */
+:root {
+  /* Background — cream terang */
+  --bg-primary:   #ffffff;
+  --bg-secondary: #ffffff;
+
+  /* Pattern simbol keuangan di background */
+  --pattern-color: rgba(91, 155, 213, 0.13);
+
+  /* Glass card */
+  --glass-bg:           rgba(255, 255, 255, 0.82);
+  --glass-border:       rgba(255, 255, 255, 0.95);
+  --glass-shadow:       0 8px 32px rgba(74, 126, 210, 0.11);
+  --glass-shadow-hover: 0 12px 40px rgba(74, 126, 210, 0.20);
+
+  /* Text */
+  --text-primary:   #1a2a4a;
+  --text-secondary: #4a6080;
+  --text-muted:     #90a8c8;
+
+  /* Accent — blue soft family */
+  --accent:         #5b9bd5;
+  --accent-dark:    #3a7bbf;
+  --accent-light:   #d6e8f8;
+  --accent-soft:    rgba(91, 155, 213, 0.12);
+
+  --blue:           #5b9bd5;
+  --blue-dark:      #3a7bbf;
+  --blue-light:     #d6e8f8;
+  --blue-soft:      rgba(91, 155, 213, 0.12);
+
+  /* Semantic */
+  --accent-green: #4db88c;
+  --accent-red:   #e05c5c;
+
+  /* Header */
+  --header-bg:     rgba(255, 255, 255, 0.90);
+  --header-border: rgba(91, 155, 213, 0.18);
+
+  /* Input */
+  --input-bg:     rgba(255, 253, 248, 0.92);
+  --input-border: rgba(91, 155, 213, 0.28);
+  --input-focus:  rgba(91, 155, 213, 0.55);
+  --input-color:  #1a2a4a;
+  --option-bg:    #fdf6ed;
+  --option-color: #1a2a4a;
+
+  /* Buttons */
+  --btn-primary-bg:     linear-gradient(135deg, #5b9bd5, #3a7bbf);
+  --btn-primary-shadow: 0 4px 15px rgba(58, 123, 191, 0.35);
+  --btn-secondary-bg:   rgba(91, 155, 213, 0.12);
+  --btn-secondary-color:#3a7bbf;
+
+  /* Badges */
+  --badge-income-bg:    rgba(77, 184, 140, 0.15);
+  --badge-income-color: #2a8a60;
+  --badge-expense-bg:   rgba(224, 92, 92, 0.15);
+  --badge-expense-color:#b83030;
+
+  /* Misc */
+  --delete-btn-color: #e05c5c;
+  --delete-btn-hover: #c03030;
+  --divider:          rgba(91, 155, 213, 0.15);
+  --scrollbar-thumb:  rgba(91, 155, 213, 0.38);
+  --toast-bg:         #1a2a4a;
+  --toast-color:      #ffffff;
+  --transition:       0.25s ease;
+}
+
+/* =============================================
+   CSS VARIABLES — DARK MODE
+   ============================================= */
+[data-theme="dark"] {
+  --bg-primary:   #0d1626;
+  --bg-secondary: #111e36;
+
+  /* Pattern simbol keuangan — orange di dark mode */
+  --pattern-color: rgba(232, 140, 60, 0.13);
+
+  --glass-bg:           rgba(17, 30, 54, 0.80);
+  --glass-border:       rgba(91, 155, 213, 0.16);
+  --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.45);
+  --glass-shadow-hover: 0 12px 40px rgba(91, 155, 213, 0.20);
+
+  --text-primary:   #ddeeff;
+  --text-secondary: #90b8d8;
+  --text-muted:     #4a6880;
+
+  --accent:       #7ab5e8;
+  --accent-dark:  #5b9bd5;
+  --accent-light: rgba(91, 155, 213, 0.16);
+  --accent-soft:  rgba(91, 155, 213, 0.08);
+
+  --blue:       #7ab5e8;
+  --blue-dark:  #5b9bd5;
+  --blue-light: rgba(91, 155, 213, 0.16);
+  --blue-soft:  rgba(91, 155, 213, 0.08);
+
+  --header-bg:     rgba(13, 22, 38, 0.92);
+  --header-border: rgba(91, 155, 213, 0.14);
+
+  --input-bg:     rgba(255, 255, 255, 0.06);
+  --input-border: rgba(91, 155, 213, 0.25);
+  --input-focus:  rgba(91, 155, 213, 0.52);
+  --input-color:  #ddeeff;
+  --option-bg:    #111e36;
+  --option-color: #ddeeff;
+
+  --btn-secondary-bg:   rgba(122, 181, 232, 0.12);
+  --btn-secondary-color:#7ab5e8;
+
+  --badge-income-bg:    rgba(77, 184, 140, 0.12);
+  --badge-income-color: #4db88c;
+  --badge-expense-bg:   rgba(224, 92, 92, 0.12);
+  --badge-expense-color:#e05c5c;
+
+  --delete-btn-color: #e05c5c;
+  --delete-btn-hover: #ff4444;
+  --divider:          rgba(91, 155, 213, 0.12);
+  --scrollbar-thumb:  rgba(91, 155, 213, 0.28);
+  --toast-bg:         #ddeeff;
+  --toast-color:      #0d1626;
+}
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+  transition: background var(--transition), color var(--transition);
+  position: relative;
+}
+
+/* =============================================
+   BACKGROUND PATTERN — simbol keuangan & belanja
+   Biru di light mode, orange di dark mode
+   via CSS custom property --pattern-color
+   ============================================= */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='10' y='38' font-size='28' fill='%230d2a6e' opacity='0.18' font-family='Arial'%3E%24%3C/text%3E%3Ctext x='68' y='28' font-size='20' fill='%230d2a6e' opacity='0.15' font-family='Arial'%3ERp%3C/text%3E%3Ctext x='5' y='80' font-size='22' fill='%230d2a6e' opacity='0.14' font-family='Arial'%3E%25%3C/text%3E%3Ctext x='55' y='75' font-size='26' fill='%230d2a6e' opacity='0.16' font-family='Arial'%3E%E2%82%AC%3C/text%3E%3Ctext x='90' y='100' font-size='18' fill='%230d2a6e' opacity='0.13' font-family='Arial'%3E%C2%A5%3C/text%3E%3Ctext x='30' y='112' font-size='22' fill='%230d2a6e' opacity='0.14' font-family='Arial'%3E%C2%A3%3C/text%3E%3Ctext x='80' y='55' font-size='16' fill='%230d2a6e' opacity='0.12' font-family='Arial'%3E%E2%89%88%3C/text%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  background-repeat: repeat;
+  opacity: 1;
+  transition: opacity var(--transition);
+}
+
+/* Dark mode pattern — orange */
+[data-theme="dark"] body::before,
+[data-theme="dark"] body::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='10' y='38' font-size='28' fill='%23e87c2e' opacity='0.13' font-family='Arial'%3E%24%3C/text%3E%3Ctext x='68' y='28' font-size='20' fill='%23e87c2e' opacity='0.10' font-family='Arial'%3ERp%3C/text%3E%3Ctext x='5' y='80' font-size='22' fill='%23e87c2e' opacity='0.10' font-family='Arial'%3E%25%3C/text%3E%3Ctext x='55' y='75' font-size='26' fill='%23e87c2e' opacity='0.12' font-family='Arial'%3E%E2%82%AC%3C/text%3E%3Ctext x='90' y='100' font-size='18' fill='%23e87c2e' opacity='0.09' font-family='Arial'%3E%C2%A5%3C/text%3E%3Ctext x='30' y='112' font-size='22' fill='%23e87c2e' opacity='0.10' font-family='Arial'%3E%C2%A3%3C/text%3E%3Ctext x='80' y='55' font-size='16' fill='%23e87c2e' opacity='0.09' font-family='Arial'%3E%E2%89%88%3C/text%3E%3C/svg%3E");
+}
+
+body::after { display: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 99px; }
+
+/* =============================================
+   HEADER
+   ============================================= */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background var(--transition);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 0.5rem; }
+.logo-icon { font-size: 1.4rem; }
+.logo-text {
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--accent-dark); letter-spacing: -0.3px;
+}
+[data-theme="dark"] .logo-text { color: var(--accent); }
+
+/* Theme toggle button */
+.theme-toggle {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%; width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background var(--transition);
+}
+.theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
+  box-shadow: 0 4px 16px rgba(91,155,213,0.35);
+}
+
+/* =============================================
+   CONTAINER
+   ============================================= */
+.container {
+  max-width: 1100px; margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+
+/* =============================================
+   GLASS CARD
+   ============================================= */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 1.75rem;
+  transition: box-shadow var(--transition), background var(--transition), border var(--transition);
+}
+.glass-card:hover { box-shadow: var(--glass-shadow-hover); }
+.card-title {
+  font-size: 1rem; font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem; letter-spacing: -0.2px;
+}
+
+/* Form card & list card — putih bersih di light mode */
+.form-card,
+.list-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(91, 155, 213, 0.22);
+}
+[data-theme="dark"] .form-card,
+[data-theme="dark"] .list-card {
+  background: var(--glass-bg);
+  border-color: rgba(91, 155, 213, 0.16);
+}
+
+/* Field yang tersembunyi saat mode income */
+.field-hidden {
+  display: none !important;
+}
+
+/* =============================================
+   BALANCE CARD
+   ============================================= */
+.balance-card {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(91,155,213,0.16), rgba(122,181,232,0.10));
+  border-color: rgba(91,155,213,0.28);
+}
+.balance-label {
+  font-size: 0.8rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text-secondary); margin-bottom: 0.4rem;
+}
+.balance-amount {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700; color: var(--text-primary);
+  letter-spacing: -1px; margin-bottom: 1.5rem;
+  transition: color var(--transition);
+}
+.balance-amount.positive { color: #2a8a60; }
+.balance-amount.negative { color: #b83030; }
+[data-theme="dark"] .balance-amount.positive { color: #4db88c; }
+[data-theme="dark"] .balance-amount.negative { color: #e05c5c; }
+
+.balance-summary {
+  display: flex; align-items: center; justify-content: center;
+  gap: 2rem; flex-wrap: wrap;
+}
+.summary-item { display: flex; align-items: center; gap: 0.6rem; }
+.summary-icon { font-size: 1.1rem; }
+.summary-label {
+  font-size: 0.72rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500;
+}
+.summary-value { font-size: 1rem; font-weight: 600; }
+.income .summary-value { color: #2a8a60; }
+.expense .summary-value { color: #b83030; }
+[data-theme="dark"] .income .summary-value { color: #4db88c; }
+[data-theme="dark"] .expense .summary-value { color: #e05c5c; }
+.summary-divider { width: 1px; height: 36px; background: var(--divider); }
+
+/* =============================================
+   LAYOUT — 2 COLUMN GRID
+   ============================================= */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* =============================================
+   FORM CARD — base inputs & selects
+   ============================================= */
+.form-card { display: flex; flex-direction: column; }
+
+.form-group { margin-bottom: 1rem; }
+
+.form-group label {
+  display: block; font-size: 0.8rem; font-weight: 500;
+  color: var(--text-secondary); margin-bottom: 0.4rem; letter-spacing: 0.2px;
+}
+
+/* All inputs and selects — ensures dark-mode text is always legible */
+.form-group input,
+.form-group select,
+.sort-select,
+.currency-select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  color: var(--input-color);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+              background var(--transition), color var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Native <option> elements */
+.form-group select option,
+.sort-select option,
+.currency-select option {
+  background: var(--option-bg);
+  color: var(--option-color);
+}
+
+/* Chevron for selects */
+.form-group select,
+.sort-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235b9bd5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.sort-select:focus,
+.currency-select:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.18);
+}
+
+.form-group input::placeholder { color: var(--text-muted); }
+
+.form-group input.is-invalid,
+.form-group select.is-invalid {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 3px rgba(224, 92, 92, 0.15);
+}
+
+.error-msg {
+  display: block; font-size: 0.75rem;
+  color: var(--accent-red);
+  margin-top: 0.3rem; min-height: 1em; font-weight: 500;
+}
+
+/* =============================================
+   PRICE ROW — currency select kiri, input kanan
+   Selalu berdampingan di semua ukuran layar
+   ============================================= */
+.price-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  flex-wrap: nowrap;   /* jangan wrap ke bawah */
+}
+
+.currency-select {
+  width: auto;
+  min-width: 90px;
+  max-width: 110px;
+  flex-shrink: 0;
+  padding: 0.65rem 0.5rem;
+  font-size: 0.80rem;
+  font-weight: 600;
+  border-radius: 10px;
+  background: var(--accent-light);
+  border: 1px solid rgba(91,155,213,0.40);
+  color: var(--accent-dark);
+  cursor: pointer;
+  text-align: center;
+  /* override chevron background dari .form-group select */
+  background-image: none !important;
+  padding-right: 0.5rem !important;
+}
+[data-theme="dark"] .currency-select {
+  background: rgba(91,155,213,0.14);
+  color: var(--accent);
+  border-color: rgba(91,155,213,0.30);
+  background-image: none !important;
+}
+
+.price-row input[type="number"] {
+  flex: 1;
+  min-width: 0;
+}
+
+/* =============================================
+   UNIT PRICE INFO (calculated below total)
+   ============================================= */
+.unit-price-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+[data-theme="dark"] .unit-price-info {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.unit-price-icon {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+}
+[data-theme="dark"] .unit-price-icon { color: var(--blue); }
+
+/* =============================================
+   SUBTOTAL PREVIEW
+   ============================================= */
+.subtotal-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-soft);
+  border: 1px dashed rgba(91,155,213,0.40);
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  margin-bottom: 1rem;
+}
+[data-theme="dark"] .subtotal-preview {
+  background: rgba(91,155,213,0.07);
+  border-color: rgba(91,155,213,0.22);
+}
+.subtotal-label {
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+.subtotal-value {
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--accent-dark);
+}
+[data-theme="dark"] .subtotal-value { color: var(--accent); }
+
+/* =============================================
+   CATEGORY MANAGER GROUP
+   ============================================= */
+.cat-manager-group {
+  background: var(--blue-light);
+  border-radius: 12px;
+  padding: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+[data-theme="dark"] .cat-manager-group { background: var(--blue-soft); }
+
+.cat-manager-group > label {
+  color: var(--blue-dark);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+[data-theme="dark"] .cat-manager-group > label { color: var(--blue); }
+
+.custom-cat-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+.custom-cat-row input { flex: 1; }
+
+/* Daftar kategori */
+.cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.cat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(91,155,213,0.18);
+  transition: background 0.15s ease;
+}
+[data-theme="dark"] .cat-item {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(91,155,213,0.14);
+}
+.cat-item:hover { background: rgba(255,255,255,0.80); }
+[data-theme="dark"] .cat-item:hover { background: rgba(255,255,255,0.08); }
+
+.cat-item-emoji { font-size: 0.9rem; flex-shrink: 0; }
+
+/* Inline rename input */
+.cat-item-name {
+  flex: 1;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  cursor: default;
+  min-width: 0;
+  font-family: inherit;
+}
+.cat-item-name.editing {
+  background: var(--input-bg);
+  border: 1px solid var(--input-focus);
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+  cursor: text;
+}
+
+/* Default badge */
+.cat-badge-default {
+  font-size: 0.62rem;
+  color: var(--blue-dark);
+  background: rgba(91,155,213,0.15);
+  border-radius: 99px;
+  padding: 0.05rem 0.4rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .cat-badge-default {
+  color: var(--blue);
+  background: rgba(91,155,213,0.12);
+}
+
+/* Hidden/disabled category */
+.cat-item.cat-hidden { opacity: 0.4; }
+
+/* Action buttons inside each category row */
+.cat-item-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+.cat-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.35rem;
+  border-radius: 6px;
+  line-height: 1;
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+.cat-action-btn:hover { transform: scale(1.15); }
+.cat-btn-edit  { color: var(--blue-dark); }
+.cat-btn-edit:hover  { background: rgba(91,155,213,0.18); }
+[data-theme="dark"] .cat-btn-edit { color: var(--blue); }
+.cat-btn-save  { color: #2a8a60; }
+.cat-btn-save:hover  { background: rgba(77,184,140,0.15); }
+.cat-btn-hide  { color: var(--text-muted); }
+.cat-btn-hide:hover  { background: rgba(144,168,200,0.18); }
+.cat-btn-del   { color: var(--accent-red); }
+.cat-btn-del:hover   { background: rgba(224,92,92,0.15); }
+
+/* =============================================
+   FORM TABS — Income / Expense switcher
+   ============================================= */
+.form-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.25rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.form-tab {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  border-radius: 9px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.form-tab.active-income {
+  background: #fff;
+  color: #2a8a60;
+  box-shadow: 0 2px 8px rgba(42, 138, 96, 0.15);
+}
+[data-theme="dark"] .form-tab.active-income {
+  background: rgba(77, 184, 140, 0.18);
+  color: #4db88c;
+  box-shadow: 0 2px 8px rgba(77, 184, 140, 0.15);
+}
+
+.form-tab.active-expense {
+  background: #fff;
+  color: #b83030;
+  box-shadow: 0 2px 8px rgba(184, 48, 48, 0.15);
+}
+[data-theme="dark"] .form-tab.active-expense {
+  background: rgba(224, 92, 92, 0.18);
+  color: #e05c5c;
+  box-shadow: 0 2px 8px rgba(224, 92, 92, 0.15);
+}
+
+/* Warna border bawah form card sesuai tipe aktif */
+.form-card.mode-income  { border-top: 3px solid #4db88c; }
+.form-card.mode-expense { border-top: 3px solid #e05c5c; }
+
+/* =============================================
+   INCOME + BUDGET PANEL (dalam form card)
+   ============================================= */
+.income-budget-panel {
+  margin-top: 1.25rem;
+}
+
+.income-budget-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  color: var(--blue-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+[data-theme="dark"] .income-budget-divider { color: var(--blue); }
+
+.income-budget-divider::before,
+.income-budget-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--divider);
+}
+
+.income-budget-hint {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+  line-height: 1.5;
+}
+
+/* =============================================
+   BUDGET PLANNER SECTION
+   ============================================= */
+.budget-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.budget-section .card-title { margin-bottom: 0.75rem; }
+
+/* Toolbar: tambah anggaran */
+.budget-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.budget-toolbar select,
+.budget-toolbar input[type="number"] {
+  padding: 0.5rem 0.75rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 9px;
+  color: var(--input-color);
+  font-size: 0.82rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.budget-toolbar select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235b9bd5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  padding-right: 1.8rem;
+  flex: 1;
+  min-width: 100px;
+}
+
+.budget-toolbar input[type="number"] {
+  flex: 1;
+  min-width: 80px;
+}
+
+.budget-toolbar select:focus,
+.budget-toolbar input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(91,155,213,0.15);
+}
+
+.budget-toolbar .btn-secondary {
+  flex-shrink: 0;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+}
+
+/* Budget list */
+.budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.budget-item {
+  background: var(--input-bg);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  animation: slideIn 0.2s ease;
+}
+
+.budget-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.budget-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.budget-item-emoji { font-size: 1rem; flex-shrink: 0; }
+
+.budget-item-name {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.budget-item-amounts {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.budget-del-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.15rem 0.3rem;
+  border-radius: 5px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.budget-del-btn:hover {
+  color: var(--accent-red);
+  background: rgba(224,92,92,0.12);
+}
+
+/* Progress bar */
+.budget-bar-wrap {
+  width: 100%;
+  height: 8px;
+  background: var(--divider);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.budget-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+/* warna bar berdasarkan pemakaian */
+.budget-bar-fill.ok      { background: linear-gradient(90deg, #4db88c, #38cfaa); }
+.budget-bar-fill.warning { background: linear-gradient(90deg, #f0b86e, #e8943a); }
+.budget-bar-fill.danger  { background: linear-gradient(90deg, #e05c5c, #c03030); }
+
+.budget-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.budget-bar-label .pct { font-weight: 600; }
+.budget-bar-label .pct.ok      { color: #2a8a60; }
+.budget-bar-label .pct.warning { color: #c07020; }
+.budget-bar-label .pct.danger  { color: #b83030; }
+[data-theme="dark"] .budget-bar-label .pct.ok      { color: #4db88c; }
+[data-theme="dark"] .budget-bar-label .pct.warning { color: #f0b86e; }
+[data-theme="dark"] .budget-bar-label .pct.danger  { color: #e05c5c; }
+
+.budget-empty {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 1.5rem 0;
+}
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+.btn-primary {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--btn-primary-bg);
+  color: #fff;
+  border: none; border-radius: 12px;
+  font-size: 0.9rem; font-weight: 600; font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--btn-primary-shadow);
+  letter-spacing: 0.2px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(58,123,191,0.45);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  padding: 0.6rem 0.9rem;
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-color);
+  border: 1px solid rgba(91,155,213,0.30);
+  border-radius: 10px;
+  font-size: 0.8rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; white-space: nowrap;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-secondary:hover {
+  background: rgba(91,155,213,0.22);
+  transform: translateY(-1px);
+}
+
+/* =============================================
+   CHART CARD
+   ============================================= */
+.chart-card { display: flex; flex-direction: column; }
+.chart-wrapper {
+  position: relative; flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 220px;
+}
+#expenseChart { max-width: 240px; max-height: 240px; }
+.chart-empty {
+  position: absolute; text-align: center;
+  font-size: 0.85rem; color: var(--text-muted);
+  display: none;
+}
+.chart-legend {
+  display: flex; flex-wrap: wrap;
+  gap: 0.4rem 0.8rem; margin-top: 1rem; justify-content: center;
+}
+.legend-item {
+  display: flex; align-items: center;
+  gap: 0.35rem; font-size: 0.75rem; color: var(--text-secondary);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%; flex-shrink: 0;
+}
+
+/* =============================================
+   TRANSACTION LIST
+   ============================================= */
+.list-card { display: flex; flex-direction: column; }
+
+.list-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.list-header .card-title { margin-bottom: 0; }
+
+.list-controls { display: flex; align-items: center; gap: 0.5rem; }
+.sort-label {
+  font-size: 0.78rem; color: var(--text-muted); font-weight: 500; white-space: nowrap;
+}
+.sort-select {
+  width: auto;
+  padding: 0.4rem 2rem 0.4rem 0.7rem;
+  border-radius: 8px; font-size: 0.8rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235b9bd5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+}
+
+/* Scrollable list */
+.transaction-list {
+  max-height: 380px; overflow-y: auto;
+  padding-right: 4px;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 3rem 1rem; color: var(--text-muted); gap: 0.5rem;
+}
+.empty-icon { font-size: 2.5rem; }
+.empty-state p { font-size: 0.88rem; }
+
+/* Transaction item */
+.transaction-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--input-bg);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background var(--transition);
+  animation: slideIn 0.25s ease;
+}
+.transaction-item:hover {
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(91,155,213,0.12);
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.item-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.item-icon.income-icon  { background: var(--badge-income-bg); }
+.item-icon.expense-icon { background: var(--badge-expense-bg); }
+
+.item-info { flex: 1; min-width: 0; }
+.item-name {
+  font-size: 0.88rem; font-weight: 600; color: var(--text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.item-meta {
+  display: flex; align-items: center;
+  gap: 0.4rem; margin-top: 0.2rem; flex-wrap: wrap;
+}
+.item-category {
+  font-size: 0.7rem; color: var(--text-muted);
+  background: rgba(91,155,213,0.12);
+  padding: 0.1rem 0.5rem; border-radius: 99px; font-weight: 500;
+}
+.item-date { font-size: 0.68rem; color: var(--text-muted); }
+.item-qty {
+  font-size: 0.68rem; color: var(--blue-dark);
+  background: var(--blue-soft);
+  padding: 0.1rem 0.45rem; border-radius: 99px; font-weight: 500;
+}
+[data-theme="dark"] .item-qty { color: var(--blue); }
+
+.item-amount { font-size: 0.95rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.item-amount.income  { color: #2a8a60; }
+.item-amount.expense { color: #b83030; }
+[data-theme="dark"] .item-amount.income  { color: #4db88c; }
+[data-theme="dark"] .item-amount.expense { color: #e05c5c; }
+
+.delete-btn {
+  background: none; border: none;
+  color: var(--delete-btn-color);
+  cursor: pointer; font-size: 1rem;
+  padding: 0.3rem; border-radius: 8px; line-height: 1; flex-shrink: 0;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+.delete-btn:hover {
+  color: var(--delete-btn-hover);
+  background: rgba(224,92,92,0.12);
+  transform: scale(1.15);
+}
+
+/* =============================================
+   SPENDING LIMIT BAR
+   ============================================= */
+.spending-limit-bar {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.spending-limit-config {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.spending-limit-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.spending-limit-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.spending-limit-inputs input[type="number"] {
+  flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0.75rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  color: var(--input-color);
+  font-size: 0.82rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.spending-limit-inputs input[type="number"]:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(91,155,213,0.15);
+}
+.spending-limit-inputs input::placeholder { color: var(--text-muted); }
+
+.btn-icon-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.btn-icon-clear:hover {
+  color: var(--accent-red);
+  background: rgba(224,92,92,0.12);
+}
+
+/* Warning banner — muncul jika pengeluaran melebihi/mendekati limit */
+.limit-warning-banner {
+  margin-top: 0.65rem;
+  border-radius: 9px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.limit-warning-banner.warn-danger {
+  background: rgba(224, 92, 92, 0.14);
+  border: 1px solid rgba(224, 92, 92, 0.35);
+  color: #b83030;
+}
+[data-theme="dark"] .limit-warning-banner.warn-danger {
+  background: rgba(224, 92, 92, 0.12);
+  color: #e05c5c;
+}
+
+.limit-warning-banner.warn-warning {
+  background: rgba(240, 184, 110, 0.16);
+  border: 1px solid rgba(240, 184, 110, 0.40);
+  color: #946010;
+}
+[data-theme="dark"] .limit-warning-banner.warn-warning {
+  background: rgba(240, 184, 110, 0.10);
+  color: #f0b86e;
+}
+
+.limit-warning-banner.warn-ok {
+  background: rgba(77, 184, 140, 0.12);
+  border: 1px solid rgba(77, 184, 140, 0.30);
+  color: #2a8a60;
+}
+[data-theme="dark"] .limit-warning-banner.warn-ok {
+  background: rgba(77, 184, 140, 0.10);
+  color: #4db88c;
+}
+
+/* Highlight merah pada transaction item yang melebihi budget kategorinya */
+.transaction-item.over-budget {
+  border-left: 3px solid var(--accent-red);
+  background: rgba(224, 92, 92, 0.06);
+}
+[data-theme="dark"] .transaction-item.over-budget {
+  background: rgba(224, 92, 92, 0.08);
+}
+
+/* =============================================
+   MONTHLY SUMMARY SECTION
+   ============================================= */
+.monthly-section {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(91, 155, 213, 0.22);
+}
+[data-theme="dark"] .monthly-section {
+  background: var(--glass-bg);
+  border-color: rgba(91, 155, 213, 0.16);
+}
+.monthly-section .list-header { margin-bottom: 1rem; }
+
+/* Grid bulan — 2 atau 3 kolom */
+.monthly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.month-card {
+  background: var(--input-bg);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  animation: slideIn 0.2s ease;
+}
+.month-card:hover {
+  box-shadow: 0 4px 14px rgba(91,155,213,0.12);
+  transform: translateY(-2px);
+}
+
+.month-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.month-card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.month-card-total {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #b83030;
+}
+[data-theme="dark"] .month-card-total { color: #e05c5c; }
+
+/* Breakdown kategori dalam month card */
+.month-cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.month-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.month-cat-bar-wrap {
+  flex: 1;
+  height: 5px;
+  background: var(--divider);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.month-cat-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.month-cat-amount {
+  white-space: nowrap;
+  font-weight: 500;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+
+/* Limit badge di month card */
+.month-limit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 99px;
+  margin-left: 0.3rem;
+}
+.month-limit-badge.over {
+  background: rgba(224,92,92,0.15);
+  color: #b83030;
+}
+[data-theme="dark"] .month-limit-badge.over { color: #e05c5c; }
+
+/* =============================================
+   TOAST
+   ============================================= */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--toast-bg); color: var(--toast-color);
+  padding: 0.75rem 1.5rem; border-radius: 99px;
+  font-size: 0.85rem; font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  z-index: 999; opacity: 0; white-space: nowrap; pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* =============================================
+   RESPONSIVE — 768px
+   ============================================= */
+@media (max-width: 768px) {
+  .container { padding: 1.25rem 1rem 3rem; gap: 1.25rem; }
+  .glass-card { padding: 1.25rem; border-radius: 16px; }
+  .grid-2col  { grid-template-columns: 1fr; }
+  .balance-amount { font-size: 2rem; }
+  .balance-summary { gap: 1.25rem; }
+  .list-header { flex-direction: column; align-items: flex-start; }
+  .transaction-list { max-height: 300px; }
+  .chart-wrapper { min-height: 200px; }
+  #expenseChart { max-width: 200px; max-height: 200px; }
+  .custom-cat-row { flex-direction: column; }
+  .custom-cat-row .btn-secondary { width: 100%; }
+  .budget-toolbar { flex-direction: column; }
+  .budget-toolbar select,
+  .budget-toolbar input[type="number"],
+  .budget-toolbar .btn-secondary { width: 100%; }
+  .spending-limit-config { flex-direction: column; align-items: flex-start; }
+  .spending-limit-inputs { width: 100%; }
+  .monthly-grid { grid-template-columns: 1fr; }
+}
+
+/* =============================================
+   RESPONSIVE — 400px
+   ============================================= */
+@media (max-width: 400px) {
+  .header-inner { padding: 0.75rem 1rem; }
+  .logo-text { font-size: 1.05rem; }
+  .balance-amount { font-size: 1.75rem; }
+  .transaction-item { gap: 0.6rem; }
+  .item-amount { font-size: 0.85rem; }
+}
